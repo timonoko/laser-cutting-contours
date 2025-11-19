@@ -1,9 +1,12 @@
-import cv2
+#! /usr/bin/python3
+
+import cv2,sys
 import numpy as np
 from PIL import Image
 
 # --- CONFIGURATION ---
-INPUT_IMAGE_FILE = '557.png'  # <--- RENAME THIS TO YOUR FILE
+INPUT_IMAGE_FILE = sys.argv[1]
+#INPUT_IMAGE_FILE = '557.png'  # <--- RENAME THIS TO YOUR FILE
 GCODE_OUTPUT_FILE = 'output.gcode'
 LASER_POWER = 'S255'                 # Laser power command (e.g., S255 for max)
 FEED_RATE = 'F1200'                  # Movement speed in mm/min
