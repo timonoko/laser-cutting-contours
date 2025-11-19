@@ -6,12 +6,17 @@ from PIL import Image
 
 # --- CONFIGURATION ---
 INPUT_IMAGE_FILE = sys.argv[1]
-#INPUT_IMAGE_FILE = '557.png'  # <--- RENAME THIS TO YOUR FILE
+
+try:
+    SCALE_FACTOR=sys.argv[2]
+    SCALE_FACTOR=eval(SCALE_FACTOR)
+except: SCALE_FACTOR=1
+
 GCODE_OUTPUT_FILE = 'output.gcode'
 LASER_POWER = 'S255'                 # Laser power command (e.g., S255 for max)
 FEED_RATE = 'F1200'                  # Movement speed in mm/min
 
-def generate_gcode(contours, scale_factor=0.1):
+def generate_gcode(contours, scale_factor=SCALE_FACTOR):
     """
     Generates G-code from a list of OpenCV contour matrices.
     
