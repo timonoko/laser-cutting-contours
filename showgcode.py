@@ -117,6 +117,24 @@ for y in range(0,MAX_Y,100):
 print('MAX',MAX_X,MAX_Y)
 print(IMG.size)
 IMG=ImageOps.flip(IMG)
+
+draw = ImageDraw.Draw(IMG)
+try:
+    font = ImageFont.truetype("DejaVuSans.ttf", 80)
+except IOError:
+    font = ImageFont.load_default()
+
+# X labels
+for x in range(1000, MAX_X, 1000):
+    draw.text((x, 5), str(int(x/10)), font=font, fill=(0,0,255))
+
+# Y labels
+H = MAX_Y + 10
+W = MAX_X + 10
+for y_unflipped in range(1000, MAX_Y, 1000):
+    y_flipped = H - y_unflipped
+    draw.text((W - 90, y_flipped), str(int(y_unflipped/10)), font=font, fill=(0,0,255))
+
 try:
     IMG.save(sys.argv[3])
     print('saving')

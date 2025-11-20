@@ -2,7 +2,7 @@
 
 import cv2,sys
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageOps
 
 # --- CONFIGURATION ---
 INPUT_IMAGE_FILE = sys.argv[1]
@@ -12,9 +12,17 @@ try:
     SCALE_FACTOR=eval(SCALE_FACTOR)
 except: SCALE_FACTOR=1
 
+try: LASER_POWER='S'+sys.argv[3]    
+except: LASER_POWER='S975'
+try: FEED_RATE='F'+sys.argv[4]    
+except: FEED_RATE='F2400'
+try: FSPEED='F'+sys.argv[5]    
+except: FSPEED='F2400'
+
+#LASER_POWER = 'S255'                 # Laser power command (e.g., S255 for max)
+#FEED_RATE = 'F1200'                  # Movement speed in mm/min
+
 GCODE_OUTPUT_FILE = 'output.gcode'
-LASER_POWER = 'S255'                 # Laser power command (e.g., S255 for max)
-FEED_RATE = 'F1200'                  # Movement speed in mm/min
 
 def generate_gcode(contours, scale_factor=SCALE_FACTOR):
     """
@@ -55,7 +63,7 @@ def generate_gcode(contours, scale_factor=SCALE_FACTOR):
         first_x = points[0, 0] * scale_factor
         first_y = points[0, 1] * scale_factor
         gcode.append(f'\n; Contour {i+1}')
-        gcode.append(f'G00 X{first_x:.3f} Y{first_y:.3f} ; Rapid move to start point')
+        gcode.append(f'G00 X{first_x:.3f} Y{first_y:.3f} {FSPEED}; Rapid move to start point')
 
         # --- Begin burning/cutting ---
         # Move laser down to focus height and start burning
@@ -86,6 +94,7 @@ def generate_gcode(contours, scale_factor=SCALE_FACTOR):
 try:
     # Use PIL/Pillow for robust image opening and to get image dimensions
     img = Image.open(INPUT_IMAGE_FILE).convert('RGB')
+    img = ImageOps.flip(img)
     width, height = img.size
     
     # Convert PIL image to OpenCV format (NumPy array)
