@@ -120,7 +120,7 @@ IMG=ImageOps.flip(IMG)
 
 draw = ImageDraw.Draw(IMG)
 try:
-    font = ImageFont.truetype("DejaVuSans.ttf", 80)
+    font = ImageFont.truetype("DejaVuSans.ttf", 60)
 except IOError:
     font = ImageFont.load_default()
 
@@ -133,7 +133,7 @@ H = MAX_Y + 10
 W = MAX_X + 10
 for y_unflipped in range(1000, MAX_Y, 1000):
     y_flipped = H - y_unflipped
-    draw.text((W - 90, y_flipped), str(int(y_unflipped/10)), font=font, fill=(0,0,255))
+    draw.text((W - 150, y_flipped), str(int(y_unflipped/10)), font=font, fill=(255,0,0))
 
 try:
     IMG.save(sys.argv[3])
