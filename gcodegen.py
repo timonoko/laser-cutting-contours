@@ -22,7 +22,7 @@ except: FSPEED='F2400'
 #LASER_POWER = 'S255'                 # Laser power command (e.g., S255 for max)
 #FEED_RATE = 'F1200'                  # Movement speed in mm/min
 
-GCODE_OUTPUT_FILE = 'output.gcode'
+GCODE_OUTPUT_FILE = 'gcode.gcode'
 
 def generate_gcode(contours, scale_factor=SCALE_FACTOR):
     """
@@ -44,7 +44,7 @@ def generate_gcode(contours, scale_factor=SCALE_FACTOR):
     gcode.append('G90 ; Use absolute positioning')
     gcode.append('G17 ; Select XY plane')
     gcode.append('M5  ; Turn off laser to start')
-    gcode.append(f'G00 Z1.00 ; Lift laser for safe travel (1mm)')
+#    gcode.append(f'G00 Z1.00 ; Lift laser for safe travel (1mm)')
     
     # Process each contour (each trace/boundary)
     for i, contour in enumerate(contours):
@@ -67,7 +67,7 @@ def generate_gcode(contours, scale_factor=SCALE_FACTOR):
 
         # --- Begin burning/cutting ---
         # Move laser down to focus height and start burning
-        gcode.append(f'G01 Z0.00 ; Lower Z to cutting height')
+#        gcode.append(f'G01 Z0.00 ; Lower Z to cutting height') noko
         gcode.append(f'M3 {LASER_POWER} ; Turn on laser with power')
         
         # All subsequent moves follow the contour line
